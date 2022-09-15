@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tvmaze-worker", "tvmaze-worker.csproj", "{9E2E9F5D-ECE8-4383-8034-A73234D6D6EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TvMazeWorker", "TvMaze.Worker\TvMazeWorker.csproj", "{58380380-FC7F-4A34-A538-850F66D3B963}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TvMazeTests", "TvMaze.Tests\TvMazeTests.csproj", "{48DF5B19-CA38-43FE-8B44-8D1122093254}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9E2E9F5D-ECE8-4383-8034-A73234D6D6EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9E2E9F5D-ECE8-4383-8034-A73234D6D6EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9E2E9F5D-ECE8-4383-8034-A73234D6D6EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9E2E9F5D-ECE8-4383-8034-A73234D6D6EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58380380-FC7F-4A34-A538-850F66D3B963}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58380380-FC7F-4A34-A538-850F66D3B963}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58380380-FC7F-4A34-A538-850F66D3B963}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58380380-FC7F-4A34-A538-850F66D3B963}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48DF5B19-CA38-43FE-8B44-8D1122093254}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48DF5B19-CA38-43FE-8B44-8D1122093254}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48DF5B19-CA38-43FE-8B44-8D1122093254}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48DF5B19-CA38-43FE-8B44-8D1122093254}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
