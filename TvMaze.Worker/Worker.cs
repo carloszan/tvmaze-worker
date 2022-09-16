@@ -32,14 +32,15 @@ namespace TvMazeWorker
 
     public async Task DoTheWork()
     {
-      var page = 0;
+      var page = await _showRepository.GetLastIdAsync();
+
       var showsDto = await _scraper.GetShowsAsync(page);
 
       var shows = showsDto
         .Select(dto => new ShowEntity { Id = dto.Id, Name = dto.Name })
         .ToList();
 
-      await _showRepository.SaveShowAsync(shows);
+      await _showRepository.SaveAsync(shows);
 
       Console.WriteLine(shows[0].Name);
       Console.WriteLine("finalized");

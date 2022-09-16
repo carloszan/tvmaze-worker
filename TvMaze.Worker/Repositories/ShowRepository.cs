@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using TvMazeWorker.Entities;
 using TvMazeWorker.TvMazeScraper.Dtos;
 
@@ -17,7 +18,24 @@ namespace TvMazeWorker.Repositories
       _showCollection = database.GetCollection<ShowEntity>(collectionName);
     }
 
-    public async Task SaveShowAsync(List<ShowEntity> shows)
+    public async Task<int> GetLastIdAsync()
+    {
+      var filter = Builders<ShowEntity>.Filter.Empty;
+      var sort = Builders<ShowEntity>.Sort.Ascending("_id");
+
+      var shows = await _showCollection.FindAsync(filter, new FindOptions<ShowEntity, ShowEntity>()
+      {
+        Sort = sort
+      });
+
+      var showList = await shows.ToListAsync();
+      
+      if (showList.Count > 0)
+        return showList.LastOrDefault().Id;
+      return -1;
+    }
+
+    public async Task SaveAsync(List<ShowEntity> shows)
     {
       await _showCollection.InsertManyAsync(shows);
     }

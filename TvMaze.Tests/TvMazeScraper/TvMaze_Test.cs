@@ -5,23 +5,17 @@ using Newtonsoft.Json;
 using TvMazeWorker.TvMazeScraper.Dtos;
 using TvMazeWorker.TvMazeScraper;
 
-namespace TvMazeTests
+namespace TvMazeTests.TvMazeScraper
 {
   public class TvMazeTest : TvMazeTestsBase
   {
-    public TvMazeTest()
-    {
-
-    }
-
     [SetUp]
     public void Setup()
     {
     }
 
     [Test]
-    public async Task TestMazeScraper_WithValidPage_ReturnsShows()
-
+    public async Task MazeScraper_WithValidPage_ReturnsShows()
     {
       var mockData = new List<ShowDto>() { new ShowDto() { Id = 1, Name = "Game of Thrones" } };
 
