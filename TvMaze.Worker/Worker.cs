@@ -1,3 +1,5 @@
+using TvMazeWorker.Entities;
+using TvMazeWorker.Repositories;
 using TvMazeWorker.TvMazeScraper;
 
 namespace TvMazeWorker
@@ -6,11 +8,16 @@ namespace TvMazeWorker
   {
     private readonly ILogger<Worker> _logger;
     private readonly ITvMazeScraperService _scraper;
+    private readonly IShowRepository _showRepository;
 
-    public Worker(ILogger<Worker> logger, ITvMazeScraperService scraper)
+    public Worker(
+      ILogger<Worker> logger, 
+      ITvMazeScraperService scraper,
+      IShowRepository showRepository)
     {
       _logger = logger;
       _scraper = scraper;
+      _showRepository = showRepository;
     }
 
     public async Task StartAsync(CancellationToken cancellationToken)
@@ -25,8 +32,14 @@ namespace TvMazeWorker
 
     public async Task DoTheWork()
     {
-      var page = 1;
-      var shows = await _scraper.GetShowsAsync(page);
+      var page = 0;
+      var showsDto = await _scraper.GetShowsAsync(page);
+
+      var shows = showsDto
+        .Select(dto => new ShowEntity { Id = dto.Id, Name = dto.Name })
+        .ToList();
+
+      await _showRepository.SaveShowAsync(shows);
 
       Console.WriteLine(shows[0].Name);
       Console.WriteLine("finalized");
