@@ -5,9 +5,9 @@ namespace TvMazeWorker
   public class Worker : IHostedService
   {
     private readonly ILogger<Worker> _logger;
-    private readonly ITvMazeScraper _scraper;
+    private readonly ITvMazeScraperService _scraper;
 
-    public Worker(ILogger<Worker> logger, ITvMazeScraper scraper)
+    public Worker(ILogger<Worker> logger, ITvMazeScraperService scraper)
     {
       _logger = logger;
       _scraper = scraper;
@@ -26,7 +26,7 @@ namespace TvMazeWorker
     public async Task DoTheWork()
     {
       var page = 1;
-      var shows = await _scraper.GetShows(page);
+      var shows = await _scraper.GetShowsAsync(page);
 
       Console.WriteLine(shows[0].Name);
       Console.WriteLine("finalized");

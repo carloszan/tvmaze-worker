@@ -5,7 +5,7 @@ IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
       services.AddHttpClient();
-      services.AddTransient<ITvMazeScraper, TvMazeScraper>();
+      services.AddTransient<ITvMazeScraperService, TvMazeScraperService>();
       services.AddHostedService<Worker>();
     })
     .Build();

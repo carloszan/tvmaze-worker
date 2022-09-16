@@ -3,17 +3,21 @@ using TvMazeWorker.TvMazeScraper.Dtos;
 
 namespace TvMazeWorker.TvMazeScraper
 {
-  public class TvMazeScraper : ITvMazeScraper
+  public class TvMazeScraperService : ITvMazeScraperService
   {
+    private readonly ILogger<Worker> _logger;
     private readonly IHttpClientFactory _httpClientFactory;
-    public TvMazeScraper(IHttpClientFactory httpClientFactory)
+
+    public TvMazeScraperService(ILogger<Worker> logger, IHttpClientFactory httpClientFactory)
     {
+      _logger = logger;
       _httpClientFactory = httpClientFactory; 
     }
 
-    public async Task<List<ShowDto>> GetShows(int page)
+    public async Task<List<ShowDto>> GetShowsAsync(int page)
     {
-      Console.WriteLine("getting shows from tvmaze...");
+      _logger.LogInformation("Getting shows from TvMaze...");
+
       var httpClient = _httpClientFactory.CreateClient();
       var shows = await httpClient.GetFromJsonAsync<List<ShowDto>>($"https://api.tvmaze.com/shows?page={page}");
 
