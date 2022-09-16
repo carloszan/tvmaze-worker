@@ -5,10 +5,10 @@ WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["TvMazeWorker.csproj", "."]
-RUN dotnet restore "./TvMazeWorker.csproj"
+COPY ["TvMaze.Worker/TvMazeWorker.csproj", "TvMaze.Worker/"]
+RUN dotnet restore "./TvMaze.Worker/TvMazeWorker.csproj"
 COPY . .
-WORKDIR "/src/."
+WORKDIR "/src/TvMaze.Worker"
 RUN dotnet build "TvMazeWorker.csproj" -c Release -o /app/build
 
 FROM build AS publish
@@ -18,3 +18,4 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "TvMazeWorker.dll"]
+
