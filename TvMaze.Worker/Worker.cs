@@ -1,3 +1,5 @@
+using TvMazeWorker.TvMazeScraper;
+
 namespace TvMazeWorker
 {
   public class Worker : IHostedService
@@ -13,13 +15,21 @@ namespace TvMazeWorker
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-      _scraper.GetShows(1);
-      await Task.Delay(1000, cancellationToken);
+      await DoTheWork();
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
       return Task.CompletedTask;
+    }
+
+    public async Task DoTheWork()
+    {
+      var page = 1;
+      var shows = await _scraper.GetShows(page);
+
+      Console.WriteLine(shows[0].Name);
+      Console.WriteLine("finalized");
     }
   }
 }
