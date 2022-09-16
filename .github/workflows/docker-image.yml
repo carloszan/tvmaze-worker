@@ -81,5 +81,5 @@ jobs:
         with:
           name: "VERSION"
           value: $((${{ secrets.VERSION }}+1))
-          repository: poliedros/api-gateway
+          repository: carloszan/tvmaze-worker
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
