@@ -2,12 +2,12 @@ using Microsoft.Extensions.Logging;
 using Moq.Protected;
 using Moq;
 using Newtonsoft.Json;
-using TvMazeWorker.TvMazeScraper.Dtos;
-using TvMazeWorker.TvMazeScraper;
+using TvMazeWorker.Services.Dtos;
+using TvMazeWorker.Services;
 
 namespace TvMazeTests.TvMazeScraper
 {
-  public class TvMazeTest : TvMazeTestsBase
+  public class TvMazeScraperServiceTest 
   {
     [SetUp]
     public void Setup()
@@ -45,10 +45,10 @@ namespace TvMazeTests.TvMazeScraper
         .Setup(_ => _.CreateClient(It.IsAny<string>()))
         .Returns(client);
 
-      _service = new TvMazeScraperService(loggerStub.Object, httpClientFactoryStub.Object);
+      var service = new TvMazeScraperService(loggerStub.Object, httpClientFactoryStub.Object);
 
       // Act
-      var shows = await _service.GetShowsAsync(1);
+      var shows = await service.GetShowsAsync(1);
       // Assert
       Assert.IsNotEmpty(shows);
     }

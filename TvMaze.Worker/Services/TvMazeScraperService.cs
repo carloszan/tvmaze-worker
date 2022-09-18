@@ -1,7 +1,7 @@
 using System.Net.Http.Json;
-using TvMazeWorker.TvMazeScraper.Dtos;
+using TvMazeWorker.Services.Dtos;
 
-namespace TvMazeWorker.TvMazeScraper
+namespace TvMazeWorker.Services
 {
   public class TvMazeScraperService : ITvMazeScraperService
   {

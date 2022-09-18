@@ -1,4 +1,4 @@
-﻿namespace TvMazeWorker.TvMazeScraper.Dtos
+﻿namespace TvMazeWorker.Services.Dtos
 {
   public class ShowDto
   {

@@ -1,6 +1,6 @@
 using TvMazeWorker.Entities;
 using TvMazeWorker.Repositories;
-using TvMazeWorker.TvMazeScraper;
+using TvMazeWorker.Services;
 
 namespace TvMazeWorker
 {

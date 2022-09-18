@@ -1,6 +1,6 @@
-using TvMazeWorker.TvMazeScraper.Dtos;
+using TvMazeWorker.Services.Dtos;
 
-namespace TvMazeWorker.TvMazeScraper
+namespace TvMazeWorker.Services
 {
   public interface ITvMazeScraperService
   {

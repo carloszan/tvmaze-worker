@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 using TvMazeWorker;
 using TvMazeWorker.Repositories;
-using TvMazeWorker.TvMazeScraper;
+using TvMazeWorker.Services;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostContext, services) =>
