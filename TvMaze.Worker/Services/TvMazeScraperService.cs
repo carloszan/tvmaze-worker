@@ -19,11 +19,18 @@ namespace TvMazeWorker.Services
       _logger.LogInformation("Getting shows from TvMaze...");
 
       var httpClient = _httpClientFactory.CreateClient();
-      var shows = await httpClient.GetFromJsonAsync<List<ShowDto>>($"https://api.tvmaze.com/shows?page={page}");
+      try
+      {
+        var shows = await httpClient.GetFromJsonAsync<List<ShowDto>>($"https://api.tvmaze.com/shows?page={page}");
 
-      if (shows != null)
-        return shows;
-      return new List<ShowDto>();
+        if (shows != null)
+          return shows;
+      }
+      catch(Exception)
+      {
+        return null;
+      }
+      return null;
     }
   }
 }

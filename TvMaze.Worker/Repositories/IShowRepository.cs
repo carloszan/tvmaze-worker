@@ -6,5 +6,6 @@ namespace TvMazeWorker.Repositories
   {
     Task SaveAsync(List<ShowEntity> show);
     Task<int> GetLastIdAsync();
+    Task DeleteAllAsync();
   }
 }

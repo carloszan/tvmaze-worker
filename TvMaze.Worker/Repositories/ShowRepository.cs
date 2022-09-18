@@ -37,5 +37,10 @@ namespace TvMazeWorker.Repositories
     {
       await _showCollection.InsertManyAsync(shows);
     }
+
+    public Task DeleteAllAsync()
+    {
+      return _showCollection.DeleteManyAsync(Builders<ShowEntity>.Filter.Empty);
+    }
   }
 }

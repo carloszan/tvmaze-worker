@@ -1,6 +1,7 @@
 using TvMazeWorker.Entities;
 using TvMazeWorker.Repositories;
 using TvMazeWorker.Services;
+using TvMazeWorker.Services.Dtos;
 
 namespace TvMazeWorker
 {
@@ -32,17 +33,30 @@ namespace TvMazeWorker
 
     public async Task DoTheWork()
     {
-      var page = await _showRepository.GetLastIdAsync();
+      // Development purposes:
+      await _showRepository.DeleteAllAsync();
 
-      var showsDto = await _scraper.GetShowsAsync(page);
+      List<ShowDto>? showsDto;
+      //var page = await _showRepository.GetLastIdAsync();
+      var page = 0;
+      showsDto = await _scraper.GetShowsAsync(page);
 
-      var shows = showsDto
-        .Select(dto => new ShowEntity { Id = dto.Id, Name = dto.Name })
-        .ToList();
+      do
+      {
+        var shows = showsDto
+          .Select(dto => new ShowEntity { Id = dto.Id, Name = dto.Name })
+          .ToList();
+        await _showRepository.SaveAsync(shows);
 
-      await _showRepository.SaveAsync(shows);
+        // Each requests must wait between 500 to send it again.
+        // This is import as TvMazeApi has a rate limiting.
+        Thread.Sleep(500);
 
-      Console.WriteLine(shows[0].Name);
+        page = page + 1;
+        showsDto = await _scraper.GetShowsAsync(page);
+      } while (showsDto != null);
+
+
       Console.WriteLine("finalized");
     }
   }
