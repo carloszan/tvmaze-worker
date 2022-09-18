@@ -1,7 +1,5 @@
-﻿using MongoDB.Bson;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using TvMazeWorker.Entities;
-using TvMazeWorker.TvMazeScraper.Dtos;
 
 namespace TvMazeWorker.Repositories
 {
@@ -28,8 +26,8 @@ namespace TvMazeWorker.Repositories
         Sort = sort
       });
 
-      var showList = await shows.ToListAsync();
-      
+      var showList = shows.ToList();
+
       if (showList.Count > 0)
         return showList.LastOrDefault().Id;
       return -1;
