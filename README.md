@@ -20,9 +20,9 @@ dotnet test
 
 ### Todo
 
-- [ ] Get cast and save it to database
-
 ### In Progress
+
+- [ ] Get cast and save it to database
 
 ### Done ✓
 
