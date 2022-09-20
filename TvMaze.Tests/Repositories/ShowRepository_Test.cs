@@ -26,6 +26,24 @@ namespace TvMazeTests.Repositories
     }
 
     [Test]
+    public async Task GetLastIdAsync_WithNoData_ReturnsMinus1()
+    {
+      // Arrange
+      var lastId = -1;
+      var fakeShows = new List<ShowEntity>() {};
+
+      Mock<IMongoClient> mongoClientMock = MongoClientFactory(fakeShows);
+
+      var showRepository = new ShowRepository(mongoClientMock.Object);
+
+      // Act
+      var id = await showRepository.GetLastIdAsync();
+
+      // Assert
+      Assert.That(lastId, Is.EqualTo(id));
+    }
+
+    [Test]
     public async Task GetShowsWithoutCastAsync_WithValidData_ReturnsCast()
     {
       // Arrange
