@@ -15,9 +15,23 @@ namespace TvMazeWorker.Services
       _httpClientFactory = httpClientFactory; 
     }
 
-    public Task<List<Actor>> GetCastFromShowIdAsync(int showId)
+    public async Task<List<Actor>> GetCastFromShowIdAsync(int showId)
     {
-      throw new NotImplementedException();
+      _logger.LogInformation("Getting cast from TvMaze...");
+
+      var httpClient = _httpClientFactory.CreateClient();
+      try
+      {
+        var cast = await httpClient.GetFromJsonAsync<List<Actor>>($"https://api.tvmaze.com/shows/{showId}/cast");
+
+        if (cast != null)
+          return cast;
+      }
+      catch (Exception)
+      {
+        return null;
+      }
+      return null;
     }
 
     public async Task<List<ShowDto>> GetShowsAsync(int page)
