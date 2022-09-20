@@ -42,5 +42,15 @@ namespace TvMazeWorker.Repositories
     {
       return _showCollection.DeleteManyAsync(Builders<ShowEntity>.Filter.Empty);
     }
+
+    public Task<List<ShowEntity>> GetShowsWithoutCastAsync()
+    {
+      throw new NotImplementedException();
+    }
+
+    public Task UpdateAsync(ShowEntity show)
+    {
+      throw new NotImplementedException();
+    }
   }
 }

@@ -12,7 +12,7 @@ namespace TvMazeWorker
     private readonly IShowRepository _showRepository;
 
     public Worker(
-      ILogger<Worker> logger, 
+      ILogger<Worker> logger,
       ITvMazeScraperService scraper,
       IShowRepository showRepository)
     {
@@ -61,6 +61,19 @@ namespace TvMazeWorker
         showsDto = await _scraper.GetShowsAsync(page);
       } while (showsDto != null);
 
+      var showsWithoutCast = await _showRepository.GetShowsWithoutCastAsync();
+      foreach (var showWithouCast in showsWithoutCast)
+      {
+        var cast = await _scraper.GetCastFromShowIdAsync(showWithouCast.Id);
+
+        var sortedCast = cast
+          .OrderBy(cast => cast.Birthday)
+          .ToList();
+
+        showWithouCast.Cast = sortedCast;
+
+        await _showRepository.UpdateAsync(showWithouCast);
+      }
 
       Console.WriteLine("finalized");
     }

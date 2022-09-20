@@ -1,4 +1,5 @@
 using System.Net.Http.Json;
+using TvMazeWorker.Entities;
 using TvMazeWorker.Services.Dtos;
 
 namespace TvMazeWorker.Services
@@ -12,6 +13,11 @@ namespace TvMazeWorker.Services
     {
       _logger = logger;
       _httpClientFactory = httpClientFactory; 
+    }
+
+    public Task<List<Actors>> GetCastFromShowIdAsync(int id)
+    {
+      throw new NotImplementedException();
     }
 
     public async Task<List<ShowDto>> GetShowsAsync(int page)
