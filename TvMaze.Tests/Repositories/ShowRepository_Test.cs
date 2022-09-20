@@ -12,7 +12,7 @@ namespace TvMazeTests.Repositories
     {
       // Arrange
       var lastId = 1;
-      var fakeShows = new List<ShowEntity>() { new ShowEntity { Id = lastId, Name = "Game of Thrones", Cast = "null" } };
+      var fakeShows = new List<ShowEntity>() { new ShowEntity { Id = lastId, Name = "Game of Thrones", Cast = null } };
 
       var showCollection = new Mock<IMongoCollection<ShowEntity>>();
       showCollection.Object.InsertMany(fakeShows);
