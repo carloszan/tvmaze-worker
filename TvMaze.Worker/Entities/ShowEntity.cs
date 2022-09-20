@@ -1,6 +1,6 @@
 ﻿namespace TvMazeWorker.Entities
 {
-  public class Actors
+  public class Actor
   {
     public int Id { get; set; }
     public string Name { get; set; }
@@ -11,6 +11,6 @@
   {
     public int Id { get;set; }
     public string Name { get; set; }
-    public List<Actors> Cast { get; set; }
+    public List<Actor> Cast { get; set; }
   }
 }

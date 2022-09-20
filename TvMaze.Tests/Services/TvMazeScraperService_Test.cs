@@ -4,6 +4,7 @@ using Moq;
 using Newtonsoft.Json;
 using TvMazeWorker.Services.Dtos;
 using TvMazeWorker.Services;
+using TvMazeWorker.Entities;
 
 namespace TvMazeTests.Services
 {
@@ -88,5 +89,48 @@ namespace TvMazeTests.Services
       // Assert
       Assert.IsNull(shows);
     }
+
+    [Test]
+    public async Task GetCastFromShowIdAsync_WithValidData_ReturnsCast()
+    {
+      // Arrange
+      var id = 1;
+      var name = "John Travolta";
+      var mockData = new List<Actor>() { new Actor { Id = id, Name = name, Birthday = new DateTime(1954, 2, 18) } };
+
+      HttpResponseMessage resultMock = new HttpResponseMessage
+      {
+        StatusCode = System.Net.HttpStatusCode.OK,
+        Content = new StringContent(JsonConvert.SerializeObject(mockData))
+      };
+
+      var loggerStub = new Mock<ILogger<Worker>>();
+      var httpClientFactoryStub = new Mock<IHttpClientFactory>();
+
+      var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
+
+      mockHttpMessageHandler
+        .Protected()
+        .Setup<Task<HttpResponseMessage>>(
+              "SendAsync",
+              ItExpr.IsAny<HttpRequestMessage>(),
+              ItExpr.IsAny<CancellationToken>()
+          )
+          .ReturnsAsync(resultMock)
+          .Verifiable();
+
+      var client = new HttpClient(mockHttpMessageHandler.Object);
+      httpClientFactoryStub
+        .Setup(_ => _.CreateClient(It.IsAny<string>()))
+        .Returns(client);
+
+      var service = new TvMazeScraperService(loggerStub.Object, httpClientFactoryStub.Object);
+
+      // Act
+      var cast = await service.GetCastFromShowIdAsync(1);
+      // Assert
+      Assert.That(cast.FirstOrDefault().Id, Is.EqualTo(id));
+      Assert.That(cast.FirstOrDefault().Name, Is.EqualTo(name));
+    }
   }
-}
+  }

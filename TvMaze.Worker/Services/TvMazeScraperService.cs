@@ -15,7 +15,7 @@ namespace TvMazeWorker.Services
       _httpClientFactory = httpClientFactory; 
     }
 
-    public Task<List<Actors>> GetCastFromShowIdAsync(int id)
+    public Task<List<Actor>> GetCastFromShowIdAsync(int showId)
     {
       throw new NotImplementedException();
     }

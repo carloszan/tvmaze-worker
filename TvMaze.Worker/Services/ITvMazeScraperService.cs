@@ -4,7 +4,7 @@ namespace TvMazeWorker.Services
 {
   public interface ITvMazeScraperService
   {
-    Task<List<Actors>> GetCastFromShowIdAsync(int id);
+    Task<List<Actor>> GetCastFromShowIdAsync(int id);
     Task<List<ShowDto>> GetShowsAsync(int page);
   }
 }
