@@ -64,6 +64,9 @@ namespace TvMazeWorker
       var showsWithoutCast = await _showRepository.GetShowsWithoutCastAsync();
       foreach (var showWithouCast in showsWithoutCast)
       {
+        if (cancellationToken.IsCancellationRequested)
+          break;
+
         var cast = await _scraper.GetCastFromShowIdAsync(showWithouCast.Id);
 
         var sortedCast = cast
