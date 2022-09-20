@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using TvMazeWorker.Entities;
 
 namespace TvMazeWorker.Repositories
@@ -43,9 +44,15 @@ namespace TvMazeWorker.Repositories
       return _showCollection.DeleteManyAsync(Builders<ShowEntity>.Filter.Empty);
     }
 
-    public Task<List<ShowEntity>> GetShowsWithoutCastAsync()
+    public async Task<List<ShowEntity>> GetShowsWithoutCastAsync()
     {
-      throw new NotImplementedException();
+      var filter = Builders<ShowEntity>.Filter.Eq("cast", BsonNull.Value);
+
+      var shows = await _showCollection.FindAsync(filter, new FindOptions<ShowEntity, ShowEntity>()
+      {
+      });
+
+      return shows.ToList();
     }
 
     public Task UpdateAsync(ShowEntity show)
