@@ -1,5 +1,4 @@
 using System.Net.Http.Json;
-using TvMazeWorker.Entities;
 using TvMazeWorker.Services.Dtos;
 
 namespace TvMazeWorker.Services
@@ -15,14 +14,14 @@ namespace TvMazeWorker.Services
       _httpClientFactory = httpClientFactory; 
     }
 
-    public async Task<List<Actor>> GetCastFromShowIdAsync(int showId)
+    public async Task<List<ActorDto>> GetCastFromShowIdAsync(int showId)
     {
       _logger.LogInformation("Getting cast from TvMaze...");
 
       var httpClient = _httpClientFactory.CreateClient();
       try
       {
-        var cast = await httpClient.GetFromJsonAsync<List<Actor>>($"https://api.tvmaze.com/shows/{showId}/cast");
+        var cast = await httpClient.GetFromJsonAsync<List<ActorDto>>($"https://api.tvmaze.com/shows/{showId}/cast");
 
         if (cast != null)
           return cast;

@@ -70,7 +70,13 @@ namespace TvMazeWorker
         var cast = await _scraper.GetCastFromShowIdAsync(showWithouCast.Id);
 
         var sortedCast = cast
-          .OrderBy(cast => cast.Birthday)
+          .OrderBy(cast => cast.Person.Birthday)
+          .Select(cast => new Actor
+          {
+            Id = cast.Person.Id,
+            Name = cast.Person.Name,
+            Birthday = cast.Person.Birthday,
+          })
           .ToList();
 
         showWithouCast.Cast = sortedCast;

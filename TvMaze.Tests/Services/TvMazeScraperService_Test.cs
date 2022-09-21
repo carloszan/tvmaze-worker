@@ -59,7 +59,17 @@ namespace TvMazeTests.Services
       // Arrange
       var id = 1;
       var name = "John Travolta";
-      var mockData = new List<Actor>() { new Actor { Id = id, Name = name, Birthday = new DateTime(1954, 2, 18) } };
+      var mockData = new List<ActorDto>() { 
+        new ActorDto 
+          { 
+           Person = new PersonDto()
+           {
+            Id = id, 
+            Name = name, 
+            Birthday = new DateTime(1954, 2, 18) 
+           }
+        } 
+      };
       var loggerStub = new Mock<ILogger<Worker>>();
 
       var content = new StringContent(JsonConvert.SerializeObject(mockData));
@@ -70,8 +80,8 @@ namespace TvMazeTests.Services
       // Act
       var cast = await service.GetCastFromShowIdAsync(1);
       // Assert
-      Assert.That(cast.FirstOrDefault().Id, Is.EqualTo(id));
-      Assert.That(cast.FirstOrDefault().Name, Is.EqualTo(name));
+      Assert.That(cast.FirstOrDefault().Person.Id, Is.EqualTo(id));
+      Assert.That(cast.FirstOrDefault().Person.Name, Is.EqualTo(name));
     }
 
     [Test]
