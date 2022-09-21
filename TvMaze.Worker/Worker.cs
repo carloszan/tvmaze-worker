@@ -1,3 +1,4 @@
+using System.Threading;
 using TvMazeWorker.Entities;
 using TvMazeWorker.Repositories;
 using TvMazeWorker.Services;
@@ -34,12 +35,21 @@ namespace TvMazeWorker
     public async Task DoTheWork(CancellationToken cancellationToken)
     {
       // Development purposes:
-      await _showRepository.DeleteAllAsync();
+      //await _showRepository.DeleteAllAsync();
 
-      List<ShowDto>? showsDto;
       //var page = await _showRepository.GetLastIdAsync();
       var page = 0;
-      showsDto = await _scraper.GetShowsAsync(page);
+
+      await FetchShowsAndSaveThem(page, cancellationToken);
+
+      await FetchCastsAndSaveThem(cancellationToken);
+
+      Console.WriteLine("finalized");
+    }
+
+    private async Task FetchShowsAndSaveThem(int page, CancellationToken cancellationToken)
+    {
+      var showsDto = await _scraper.GetShowsAsync(page);
 
       do
       {
@@ -60,7 +70,10 @@ namespace TvMazeWorker
         page = page + 1;
         showsDto = await _scraper.GetShowsAsync(page);
       } while (showsDto != null);
+    }
 
+    private async Task FetchCastsAndSaveThem(CancellationToken cancellationToken)
+    {
       var showsWithoutCast = await _showRepository.GetShowsWithoutCastAsync();
       foreach (var showWithouCast in showsWithoutCast)
       {
@@ -83,8 +96,6 @@ namespace TvMazeWorker
 
         await _showRepository.UpdateAsync(showWithouCast);
       }
-
-      Console.WriteLine("finalized");
     }
   }
 }
