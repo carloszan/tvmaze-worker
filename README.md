@@ -20,9 +20,11 @@ dotnet test
 
 ### Todo
 
+- [ ] K8s files
+
 ### In Progress
 
 ### Done ✓
 
-- [x] Get cast and save it to database
 - [x] Get shows and save it to database
+- [x] Get cast and save it to database
