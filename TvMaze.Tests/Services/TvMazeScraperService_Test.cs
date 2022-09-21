@@ -59,8 +59,8 @@ namespace TvMazeTests.Services
       // Arrange
       var id = 1;
       var name = "John Travolta";
-      var mockData = new List<ActorDto>() { 
-        new ActorDto 
+      var mockData = new List<CastDto>() { 
+        new CastDto 
           { 
            Person = new PersonDto()
            {

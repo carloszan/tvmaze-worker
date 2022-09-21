@@ -1,6 +1,6 @@
 ﻿namespace TvMazeWorker.Services.Dtos
 {
-  public class ActorDto
+  public class CastDto
   {
     public PersonDto Person { get; set; }
   }

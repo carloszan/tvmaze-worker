@@ -37,14 +37,15 @@ namespace TvMazeWorker
       // Development purposes:
       //await _showRepository.DeleteAllAsync();
 
-      //var page = await _showRepository.GetLastIdAsync();
-      var page = 0;
+      var lastId = await _showRepository.GetLastIdAsync();
 
-      await FetchShowsAndSaveThem(page, cancellationToken);
+      var page = Math.Floor(Convert.ToDouble(lastId) / 250) + 1;
+
+      await FetchShowsAndSaveThem((int)page, cancellationToken);
 
       await FetchCastsAndSaveThem(cancellationToken);
 
-      Console.WriteLine("finalized");
+      _logger.LogInformation("Finalized...");
     }
 
     private async Task FetchShowsAndSaveThem(int page, CancellationToken cancellationToken)
@@ -53,19 +54,20 @@ namespace TvMazeWorker
 
       do
       {
-        var shows = showsDto
-          .Select(dto => new ShowEntity { Id = dto.Id, Name = dto.Name })
-          .ToList();
-        await _showRepository.SaveAsync(shows);
-
-        // Each requests must wait between 500 to send it again.
-        // This is import as TvMazeApi has a rate limiting.
-        Thread.Sleep(500);
-
         if (cancellationToken.IsCancellationRequested)
         {
           break;
         }
+
+        _logger.LogInformation("Saving shows to its document...");
+        var shows = showsDto
+          .Select(dto => new ShowEntity { Id = dto.Id, Name = dto.Name })
+          .ToList();
+        await _showRepository.InsertManyAsync(shows);
+
+        // Each requests must wait  500 to send it again.
+        // This is import as TvMazeApi has a rate limiting.
+        Thread.Sleep(500);
 
         page = page + 1;
         showsDto = await _scraper.GetShowsAsync(page);
@@ -74,16 +76,21 @@ namespace TvMazeWorker
 
     private async Task FetchCastsAndSaveThem(CancellationToken cancellationToken)
     {
-      var showsWithoutCast = await _showRepository.GetShowsWithoutCastAsync();
+    var showsWithoutCast = await _showRepository.GetShowsWithoutCastAsync();
+
       foreach (var showWithouCast in showsWithoutCast)
       {
         if (cancellationToken.IsCancellationRequested)
           break;
 
+        // Each requests must wait  500 to send it again.
+        // This is import as TvMazeApi has a rate limiting.
+        Thread.Sleep(500);
+
         var cast = await _scraper.GetCastFromShowIdAsync(showWithouCast.Id);
 
         var sortedCast = cast
-          .OrderBy(cast => cast.Person.Birthday)
+          .OrderByDescending(cast => cast.Person.Birthday)
           .Select(cast => new Actor
           {
             Id = cast.Person.Id,
@@ -94,6 +101,7 @@ namespace TvMazeWorker
 
         showWithouCast.Cast = sortedCast;
 
+        _logger.LogInformation("Saving cast to its document...");
         await _showRepository.UpdateAsync(showWithouCast);
       }
     }

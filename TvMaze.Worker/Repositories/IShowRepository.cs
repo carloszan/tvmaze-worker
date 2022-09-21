@@ -4,7 +4,7 @@ namespace TvMazeWorker.Repositories
 {
   public interface IShowRepository
   {
-    Task SaveAsync(List<ShowEntity> show);
+    Task InsertManyAsync(List<ShowEntity> show);
     Task<int> GetLastIdAsync();
     Task DeleteAllAsync();
     Task<List<ShowEntity>> GetShowsWithoutCastAsync();

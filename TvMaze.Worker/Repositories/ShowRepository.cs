@@ -34,9 +34,9 @@ namespace TvMazeWorker.Repositories
       return -1;
     }
 
-    public async Task SaveAsync(List<ShowEntity> shows)
+    public async Task InsertManyAsync(List<ShowEntity> shows)
     {
-      await _showCollection.InsertManyAsync(shows);
+      await _showCollection.InsertManyAsync(shows, new InsertManyOptions() { IsOrdered = false});
     }
 
     public Task DeleteAllAsync()
@@ -55,9 +55,13 @@ namespace TvMazeWorker.Repositories
       return shows.ToList();
     }
 
-    public Task UpdateAsync(ShowEntity show)
+    public async Task UpdateAsync(ShowEntity show)
     {
-      throw new NotImplementedException();
+      var filter = Builders<ShowEntity>.Filter.Eq("_id", show.Id);
+      var updateDefinition = Builders<ShowEntity>.Update
+        .Set(u => u.Cast, show.Cast);
+
+      var res = await _showCollection.UpdateOneAsync(filter, updateDefinition);
     }
   }
 }

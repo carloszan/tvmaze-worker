@@ -11,7 +11,7 @@ namespace TvMazeWorker.Entities
     public string Name { get; set; }
 
     [BsonElement("birthday")]
-    public DateTime Birthday { get; set; }
+    public DateTime? Birthday { get; set; }
   }
 
   public class ShowEntity
