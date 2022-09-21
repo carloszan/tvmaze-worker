@@ -22,8 +22,7 @@ dotnet test
 
 ### In Progress
 
-- [ ] Get cast and save it to database
-
 ### Done ✓
 
+- [x] Get cast and save it to database
 - [x] Get shows and save it to database

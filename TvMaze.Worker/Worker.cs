@@ -35,7 +35,7 @@ namespace TvMazeWorker
     public async Task DoTheWork(CancellationToken cancellationToken)
     {
       // Development purposes:
-      //await _showRepository.DeleteAllAsync();
+      await _showRepository.DeleteAllAsync();
 
       var lastId = await _showRepository.GetLastIdAsync();
 
