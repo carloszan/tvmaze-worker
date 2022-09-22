@@ -65,7 +65,7 @@ namespace TvMazeWorker
           .ToList();
         await _showRepository.InsertManyAsync(shows);
 
-        // Each requests must wait  500 to send it again.
+        // Each requests must wait 500 to send it again.
         // This is import as TvMazeApi has a rate limiting.
         Thread.Sleep(500);
 
@@ -83,7 +83,7 @@ namespace TvMazeWorker
         if (cancellationToken.IsCancellationRequested)
           break;
 
-        // Each requests must wait  500 to send it again.
+        // Each requests must wait 500 to send it again.
         // This is import as TvMazeApi has a rate limiting.
         Thread.Sleep(500);
 
