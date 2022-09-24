@@ -31,7 +31,7 @@ I decided not to paralize shows fetching data as it is already fast enough.
 
 This is a bot. We can run it as a CronJob in a Kubernetes cluster.
 
-I would recommend running this bot/worker daily with a cron job in order to update new shows and casts.
+I would recommend running this bot/worker daily with a cron job in order to update new shows and casts. Last than daily is unnecessary as the request to get shows are 24 hours cached.
 
 And also it is import to mention that the bot runs looking for shows and casts that one doesn't have so they can be as fast as possible.
 
