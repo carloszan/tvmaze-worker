@@ -78,32 +78,41 @@ namespace TvMazeWorker
     {
       var showsWithoutCast = await _showRepository.GetShowsWithoutCastAsync();
 
-      foreach (var showWithouCast in showsWithoutCast)
+      var options = new ParallelOptions { MaxDegreeOfParallelism = 4, CancellationToken = cancellationToken };
+      await Parallel.ForEachAsync(showsWithoutCast, options, async (showWithoutCast, token) =>
       {
         if (cancellationToken.IsCancellationRequested)
-          break;
+          return;
 
         // Each requests must wait 500 to send it again.
         // This is import as TvMazeApi has a rate limiting.
         await Task.Delay(500, cancellationToken);
 
-        var cast = await _scraper.GetCastFromShowIdAsync(showWithouCast.Id);
+        var cast = await _scraper.GetCastFromShowIdAsync(showWithoutCast.Id);
 
-        var sortedCast = cast
-          .OrderByDescending(cast => cast.Person.Birthday)
-          .Select(cast => new Actor
-          {
-            Id = cast.Person.Id,
-            Name = cast.Person.Name,
-            Birthday = cast.Person.Birthday,
-          })
-          .ToList();
+        try
+        {
+          var sortedCast = cast
+            .OrderByDescending(cast => cast.Person?.Birthday)
+            .Where(cast => cast != null)
+            .Select(cast => new Actor
+            {
+              Id = cast.Person.Id,
+              Name = cast.Person.Name,
+              Birthday = cast.Person.Birthday,
+            })
+            .ToList();
 
-        showWithouCast.Cast = sortedCast;
+          showWithoutCast.Cast = sortedCast;
 
-        _logger.LogInformation("Saving cast to its document...");
-        await _showRepository.UpdateAsync(showWithouCast);
-      }
+          _logger.LogInformation("Saving cast to its document...");
+          await _showRepository.UpdateAsync(showWithoutCast);
+        }
+        catch (Exception e)
+        {
+          _logger.LogInformation(e.Message);
+        }
+      });
     }
   }
 }

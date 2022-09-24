@@ -2,7 +2,7 @@
 {
   public class CastDto
   {
-    public PersonDto Person { get; set; }
+    public PersonDto? Person { get; set; }
   }
 
 }
