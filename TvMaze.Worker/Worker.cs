@@ -34,9 +34,6 @@ namespace TvMazeWorker
 
     public async Task DoTheWork(CancellationToken cancellationToken)
     {
-      // Development purposes:
-      await _showRepository.DeleteAllAsync();
-
       var lastId = await _showRepository.GetLastIdAsync();
 
       var page = Math.Floor(Convert.ToDouble(lastId) / 250) + 1;
@@ -67,7 +64,7 @@ namespace TvMazeWorker
 
         // Each requests must wait 500 to send it again.
         // This is import as TvMazeApi has a rate limiting.
-        Thread.Sleep(500);
+        await Task.Delay(500, cancellationToken);
 
         page = page + 1;
         showsDto = await _scraper.GetShowsAsync(page);
@@ -85,7 +82,7 @@ namespace TvMazeWorker
 
         // Each requests must wait 500 to send it again.
         // This is import as TvMazeApi has a rate limiting.
-        Thread.Sleep(500);
+        await Task.Delay(500, cancellationToken);
 
         var cast = await _scraper.GetCastFromShowIdAsync(showWithouCast.Id);
 
