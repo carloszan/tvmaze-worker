@@ -76,7 +76,7 @@ namespace TvMazeWorker
 
     private async Task FetchCastsAndSaveThem(CancellationToken cancellationToken)
     {
-    var showsWithoutCast = await _showRepository.GetShowsWithoutCastAsync();
+      var showsWithoutCast = await _showRepository.GetShowsWithoutCastAsync();
 
       foreach (var showWithouCast in showsWithoutCast)
       {
