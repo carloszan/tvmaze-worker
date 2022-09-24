@@ -49,6 +49,9 @@ namespace TvMazeWorker
     {
       var showsDto = await _scraper.GetShowsAsync(page);
 
+      if (showsDto == null)
+        return;
+
       do
       {
         if (cancellationToken.IsCancellationRequested)
