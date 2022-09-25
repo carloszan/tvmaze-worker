@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: tvmaze-worker
+spec:
+  schedule: "0 0 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: tvmaze-worker
+              image: carloszan/tvmaze-worker:v19
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: MONGO_URL
+                  value: "-"
+
+          restartPolicy: Never

@@ -41,11 +41,10 @@ And also it is import to mention that the bot runs only looking for shows and ca
 
 ### Todo
 
-- [ ] K8s files
-
 ### In Progress
 
 ### Done ✓
 
+- [x] K8s files
 - [x] Get shows and save it to database
 - [x] Get cast and save it to database
