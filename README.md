@@ -39,6 +39,12 @@ And also it is import to mention that the bot runs only looking for shows and ca
 0 0 * * *
 ```
 
+## Kubernetes
+
+This project can be run on a kubernetes cluster. The manifest file is inside k8s folder.
+
+## Kanban
+
 ### Todo
 
 ### In Progress
