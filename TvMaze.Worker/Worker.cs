@@ -110,7 +110,7 @@ namespace TvMazeWorker
         }
         catch (Exception e)
         {
-          _logger.LogInformation(e.Message);
+          _logger.LogError(e.Message);
         }
       });
     }
